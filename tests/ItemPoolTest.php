@@ -15,20 +15,22 @@ final class ItemPoolTest extends CachePoolTest
             'testHasItemInvalidKeys' => 'Provided invalid keys cannot happen in psr/cache 3.0',
             'testDeleteItemInvalidKeys' => 'Provided invalid keys cannot happen in psr/cache 3.0',
     ];
-    private const CACHE_PATH = __DIR__ . '/../.cache';
+    private static string $temporaryFile;
 
     public function createCachePool(): ItemPool
     {
-        return new ItemPool(
-                self::CACHE_PATH,
-                new NativeSerializer()
-        );
+        return new ItemPool(ItemPoolTest::getTemporaryFile(), new NativeSerializer());
     }
 
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
 
-        \unlink(ItemPoolTest::CACHE_PATH);
+        \unlink(ItemPoolTest::getTemporaryFile());
+    }
+
+    private static function getTemporaryFile(): string
+    {
+        return ItemPoolTest::$temporaryFile ??= \tempnam(\sys_get_temp_dir(), 'cache_');
     }
 }
