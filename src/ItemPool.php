@@ -14,7 +14,7 @@ final class ItemPool implements CacheItemPoolInterface
     private array $items;
 
     public function __construct(
-        private readonly StorageInterface $cacheStorage
+            private readonly StorageInterface $cacheStorage
     ) {
     }
 
