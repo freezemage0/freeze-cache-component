@@ -1,6 +1,6 @@
 {
-    "name": "freeze/file-cache-component",
-    "description": "File Cache Component for Freeze Framework",
+    "name": "freeze/cache-component",
+    "description": "Cache Component for Freeze Framework",
     "minimum-stability": "stable",
     "license": "proprietary",
     "authors": [
