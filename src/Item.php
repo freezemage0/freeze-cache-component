@@ -15,7 +15,7 @@ final class Item implements CacheItemInterface
     private mixed              $value          = null;
     private ?DateTimeInterface $expirationDate = null;
 
-    private bool $isReady   = false;
+    private bool  $isReady   = false;
     private ?bool $isExpired = null;
 
     public function __construct(string $key)
