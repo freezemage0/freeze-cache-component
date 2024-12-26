@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Freeze\Component\FileCache\Test;
+namespace Freeze\Component\Cache\Test;
 
 use Cache\IntegrationTests\CachePoolTest;
-use Freeze\Component\FileCache\ItemPool;
-use Freeze\Component\FileCache\Storage\FileStorage;
+use Freeze\Component\Cache\ItemPool;
+use Freeze\Component\Cache\Storage\FileStorage;
 use Freeze\Component\Serializer\NativeSerializer;
 
 final class NativeFilePoolTest extends CachePoolTest
@@ -24,13 +24,6 @@ final class NativeFilePoolTest extends CachePoolTest
                 NativeFilePoolTest::getTemporaryFile(),
                 new NativeSerializer()
         ));
-    }
-
-    public static function tearDownAfterClass(): void
-    {
-        parent::tearDownAfterClass();
-
-        \unlink(NativeFilePoolTest::getTemporaryFile());
     }
 
     private static function getTemporaryFile(): string

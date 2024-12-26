@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Freeze\Component\FileCache;
+namespace Freeze\Component\Cache;
 
-use Freeze\Component\FileCache\Exception\InvalidCacheKeyException;
+use Freeze\Component\Cache\Exception\InvalidCacheKeyException;
 use Stringable;
 
 final class CacheKey implements Stringable

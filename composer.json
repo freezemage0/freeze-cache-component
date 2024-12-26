@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Freeze\\Component\\FileCache\\": "src/"
+            "Freeze\\Component\\Cache\\": "src/"
         }
     },
     "require-dev": {
@@ -25,7 +25,10 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Freeze\\Component\\FileCache\\Test\\": "tests/"
+            "Freeze\\Component\\Cache\\Test\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --no-configuration tests/"
     }
 }
