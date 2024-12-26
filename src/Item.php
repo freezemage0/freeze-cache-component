@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Freeze\Component\FileCache;
+namespace Freeze\Component\Cache;
 
 use DateInterval;
 use DateTime;

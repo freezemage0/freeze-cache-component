@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Freeze\Component\FileCache;
+namespace Freeze\Component\Cache;
 
-use Freeze\Component\FileCache\Contract\StorageInterface;
+use Freeze\Component\Cache\Contract\StorageInterface;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Freeze\Component\FileCache\Contract;
+namespace Freeze\Component\Cache\Contract;
 
-use Freeze\Component\FileCache\Item;
+use Freeze\Component\Cache\Item;
 
 interface StorageInterface
 {

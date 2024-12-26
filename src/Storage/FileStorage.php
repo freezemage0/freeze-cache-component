@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Freeze\Component\FileCache\Storage;
+namespace Freeze\Component\Cache\Storage;
 
 use DateTime;
 use Exception;
-use Freeze\Component\FileCache\Contract\StorageInterface;
-use Freeze\Component\FileCache\Exception\RuntimeException;
-use Freeze\Component\FileCache\Item;
+use Freeze\Component\Cache\Contract\StorageInterface;
+use Freeze\Component\Cache\Exception\RuntimeException;
+use Freeze\Component\Cache\Item;
 use Freeze\Component\Serializer\Contract\SerializerInterface;
 use Freeze\Component\Serializer\NativeSerializer;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Freeze\Component\FileCache\Exception;
+namespace Freeze\Component\Cache\Exception;
 
 use Psr\Cache\InvalidArgumentException;
 
