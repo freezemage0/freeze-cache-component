@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Freeze\Component\FileCache;
 
-use DateTime;
-use Freeze\Component\Serializer\Contract\SerializerInterface;
-use Freeze\Component\Serializer\NativeSerializer;
+use Freeze\Component\FileCache\Contract\StorageInterface;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
@@ -16,8 +14,7 @@ final class ItemPool implements CacheItemPoolInterface
     private array $items;
 
     public function __construct(
-            private readonly string $cachePath,
-            private readonly SerializerInterface $serializer = new NativeSerializer()
+        private readonly StorageInterface $cacheStorage
     ) {
     }
 
@@ -59,7 +56,9 @@ final class ItemPool implements CacheItemPoolInterface
     {
         unset($this->items);
 
-        return \file_put_contents($this->cachePath, '') !== false;
+        $this->cacheStorage->clear();
+
+        return true;
     }
 
     public function deleteItem(string $key): bool
@@ -125,31 +124,7 @@ final class ItemPool implements CacheItemPoolInterface
         if (!isset($this->items)) {
             $this->items = [];
 
-            if (!\is_readable($this->cachePath)) {
-                return;
-            }
-
-            $contents = \file_get_contents($this->cachePath);
-            if ($contents === '' || $contents === false) {
-                return;
-            }
-
-            $items = (array) $this->serializer->deserialize($contents);
-
-            foreach ($items as $v) {
-                $item = new Item($v['key']);
-
-                if (isset($v['expiresAt'])) {
-                    $expiresAt = (new DateTime())->setTimestamp($v['expiresAt']);
-                } else {
-                    $expiresAt = null;
-                }
-                $item->expiresAt($expiresAt);
-
-                if (isset($v['value'])) {
-                    $item->set($v['value']);
-                }
-
+            foreach ($this->cacheStorage->retrieve() as $item) {
                 $this->items[$item->getKey()] = $item;
             }
         }
@@ -157,17 +132,9 @@ final class ItemPool implements CacheItemPoolInterface
 
     private function persist(): bool
     {
-        $items = \array_map(
-                static fn(Item $item): array => [
-                        'expiresAt' => $item->getExpirationDate()?->getTimestamp() ?? null,
-                        'value' => $item->get(),
-                        'key' => $item->getKey(),
-                ],
-                $this->items
-        );
+        $this->cacheStorage->persist($this->items);
 
-
-        return \file_put_contents($this->cachePath, $this->serializer->serialize($items)) !== false;
+        return true;
     }
 
     public function __destruct()

@@ -6,9 +6,10 @@ namespace Freeze\Component\FileCache\Test;
 
 use Cache\IntegrationTests\CachePoolTest;
 use Freeze\Component\FileCache\ItemPool;
+use Freeze\Component\FileCache\Storage\FileStorage;
 use Freeze\Component\Serializer\NativeSerializer;
 
-final class ItemPoolTest extends CachePoolTest
+final class NativeFilePoolTest extends CachePoolTest
 {
     protected $skippedTests = [
             'testGetItemInvalidKeys' => 'Provided invalid keys cannot happen in psr/cache 3.0',
@@ -19,18 +20,21 @@ final class ItemPoolTest extends CachePoolTest
 
     public function createCachePool(): ItemPool
     {
-        return new ItemPool(ItemPoolTest::getTemporaryFile(), new NativeSerializer());
+        return new ItemPool(new FileStorage(
+                NativeFilePoolTest::getTemporaryFile(),
+                new NativeSerializer()
+        ));
     }
 
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
 
-        \unlink(ItemPoolTest::getTemporaryFile());
+        \unlink(NativeFilePoolTest::getTemporaryFile());
     }
 
     private static function getTemporaryFile(): string
     {
-        return ItemPoolTest::$temporaryFile ??= \tempnam(\sys_get_temp_dir(), 'cache_');
+        return NativeFilePoolTest::$temporaryFile ??= \tempnam(\sys_get_temp_dir(), 'cache_');
     }
 }
