@@ -94,14 +94,13 @@ final class ItemPool implements CacheItemPoolInterface
 
     public function saveDeferred(CacheItemInterface $item): bool
     {
-        $cache = $this->items[$item->getKey()];
-
-        if (!($cache instanceof DeferredItem)) {
-            $cache = new DeferredItem($item);
+        if (!($item instanceof DeferredItem)) {
+            // First time item is put into deferred queue
+            $this->items[$item->getKey()] = new DeferredItem($item);
+        } else {
+            // Item is already deferred, update stored value.
+            $item->getOrigin()->set($item->getValue());
         }
-
-        $this->items[$item->getKey()] = $cache->set($item->get());
-        var_dump($this->items);
 
         return true;
     }
@@ -125,6 +124,10 @@ final class ItemPool implements CacheItemPoolInterface
     {
         if (!isset($this->items)) {
             $this->items = [];
+
+            if (!\is_readable($this->cachePath)) {
+                return;
+            }
 
             $contents = \file_get_contents($this->cachePath);
             if ($contents === '' || $contents === false) {

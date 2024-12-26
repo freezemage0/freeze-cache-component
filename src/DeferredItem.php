@@ -22,7 +22,7 @@ final class DeferredItem implements CacheItemInterface
 
     public function get(): mixed
     {
-        return $this->value ?? $this->item->get();
+        return $this->item->get();
     }
 
     public function isHit(): bool
@@ -32,14 +32,8 @@ final class DeferredItem implements CacheItemInterface
 
     public function set(mixed $value): static
     {
-        if ($this->item->get() === $value) {
-            return $this;
-        }
-
-        $item = new DeferredItem($this->item);
-        $item->value = $value;
-
-        return $item;
+        $this->value = $value;
+        return $this;
     }
 
     public function expiresAt(?\DateTimeInterface $expiration): static
